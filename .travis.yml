@@ -1,0 +1,11 @@
+os: osx
+language: swift
+xcode_project: Quick\ Text\ Copy.xcodeproj
+deploy:
+  provider: releases
+  api_key:
+    secure: fYcrqC8+L4QGkYgfbBIK4D/DUg1+tRVdoDtaf6ar7CIi8Ak234q53JwfTOlyEPD39ylFpmDFPKzQ5jWFuU8RB6TxfzeSePe82ucHzotbuUAYhMaKn1Wp2gQJj3FWfa2E6W7jOttVO1tz+UB2mkhJLXM5t+RQ7zuZ3kj53wK63iylIdQqwiJK6jU05bRJIffhnvzzLt4HpgQgmJB6BCCoAjU0Z8rH998DBhr1TO2vJ4IPDGRN+WoPy87vi/ftN45GM567c2op25Tnlw9xsuH07W97sZ15NsRapprLYOh7OPX6aroscsY1dDTqMhVN1sdrboi5yccskCiyUR8vBKdnjdWIwErVOQj7eNs/fYE7ioCjzA+kYnwGwRR4q/JRoSe8MJZB0nu8JNcyyaIztksUJZ5Ve4SAxj+fJp45AF7B68pegDVU0wVZkDG6pqUH2TiaXEePvc69frH8QWS59aYWaFFaed/hqdp0WqeveOtS3Qz7Uv7UgHDRxRj6IppacwhWTDT5JLJ4yWOFR/oNgyUKigsHyojxNuen5HebWVHDSCmE3J9FOOeqUHaG4qFyeXELcMp605+5UQh3fj2Z/6J9xGFpqOA03XsNhr9m78+nTRrZ79cleyLUIgJJRtv+X8//VNSjCYDrIVOTgW5Cd60raVsU318IJJA1jqkpTEBaSy0=
+  file: Quick\ Text\ Copy.app
+  overwrite: true
+  on:
+    repo: rohgar/quick-text-copy
