@@ -8,6 +8,10 @@
 
 import Cocoa
 
+class QTCMenuItem: NSMenuItem {
+    var qtcValue: String!
+}
+
 class QTCBaseObject: NSObject {
     
     let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
@@ -23,35 +27,30 @@ class QTCBaseObject: NSObject {
     
     // MARK: Selector Functions
     
-    func loadNewFile(sender: NSMenuItem) {
+    func loadNewFile(sender: QTCMenuItem) {
         userSelectedFile = selectFile()
         loadUserSelectedFile(sender: sender)
     }
     
-    func loadUserSelectedFile(sender: NSMenuItem) {
+    func loadUserSelectedFile(sender: QTCMenuItem) {
         if let file = userSelectedFile {
             intializeStatusItemMenu(allowDisablingItems: true)
             populateMenuFromFile(file)
         }
     }
     
-    func reset(sender: NSMenuItem) {
+    func reset(sender: QTCMenuItem) {
         userSelectedFile = nil
         intializeStatusItemMenu()
     }
     
-    func clickedItem(sender: NSMenuItem) {
+    func clickedItem(sender: QTCMenuItem) {
         let pasteBoard = NSPasteboard.general()
         pasteBoard.clearContents()
-        pasteBoard.writeObjects([sender.title as NSString])
+        pasteBoard.writeObjects([sender.qtcValue as NSString])
     }
     
-    func rateApp(sender: NSMenuItem) {
-        let appstoreUrl = "https://itunes.apple.com/app/quick-text-copy/id1268494519?action=write-review"
-        if let url = URL(string: appstoreUrl), NSWorkspace.shared().open(url) {}
-    }
-    
-    func quitApp(sender: NSMenuItem) {
+    func quitApp(sender: QTCMenuItem) {
         NSApplication.shared().terminate(self)
     }
     
@@ -61,23 +60,20 @@ class QTCBaseObject: NSObject {
         statusItem.menu = NSMenu()
         statusItem.menu!.autoenablesItems = allowDisablingItems
         // Load File
-        let loadMenuItem = NSMenuItem(title: "Load File ...", action: #selector(loadNewFile), keyEquivalent: "l")
+        let loadMenuItem = QTCMenuItem(title: "Load File ...", action: #selector(loadNewFile), keyEquivalent: "l")
         statusItem.menu!.addItem(loadMenuItem)
         // Refresh File
-        let refreshMenuItem = NSMenuItem(title: "Refresh loaded file", action: #selector(loadUserSelectedFile), keyEquivalent: "r")
+        let refreshMenuItem = QTCMenuItem(title: "Refresh loaded file", action: #selector(loadUserSelectedFile), keyEquivalent: "r")
         refreshMenuItem.isEnabled = false
         statusItem.menu!.addItem(refreshMenuItem)
         // Refresh File
-        let clearMenuItem = NSMenuItem(title: "Clear loaded file", action: #selector(reset), keyEquivalent: "c")
+        let clearMenuItem = QTCMenuItem(title: "Clear loaded file", action: #selector(reset), keyEquivalent: "c")
         clearMenuItem.isEnabled = false
         statusItem.menu!.addItem(clearMenuItem)
         // separator
-        statusItem.menu!.addItem(NSMenuItem.separator())
-        // Rate
-        let rateMenuItem = NSMenuItem(title: "Rate App", action: #selector(rateApp), keyEquivalent: "")
-        statusItem.menu!.addItem(rateMenuItem)
+        statusItem.menu!.addItem(QTCMenuItem.separator())
         // Quit
-        let quitMenuItem = NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q")
+        let quitMenuItem = QTCMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q")
         statusItem.menu!.addItem(quitMenuItem)
         
         for item in statusItem.menu!.items {
@@ -108,23 +104,39 @@ class QTCBaseObject: NSObject {
     
     // Assumes that the user did select a file
     private func populateMenuFromFile(_ chosenFile: String) {
+        var isPropertyFile = false;
+        if (chosenFile.hasSuffix("properties")) {
+            isPropertyFile = true
+        }
         // Read the contents of the file into an array of Strings
         do {
             let content = try NSString(contentsOfFile: chosenFile, encoding: String.Encoding.utf8.rawValue)
             // load the file contents
-            let values = content.components(separatedBy: "\n")
+            let lines = content.components(separatedBy: "\n")
             var index = 0
             var shortcutIndex = 0
             // add values from the file
-            for _value in values {
-                if (_value.isEmpty) {
-                    statusItem.menu!.insertItem(NSMenuItem.separator(), at: index)
+            for _line in lines {
+                if (_line.isEmpty) {
+                    statusItem.menu!.insertItem(QTCMenuItem.separator(), at: index)
                 } else {
                     var shortcut = ""
                     if (shortcutIndex < 10) {
                         shortcut = "\(shortcutIndex)"
                     }
-                    let item = NSMenuItem(title: _value, action: #selector(clickedItem), keyEquivalent: shortcut)
+                    var key : String
+                    var value : String
+                    if (isPropertyFile) {
+                        let _keyval = _line.characters.split(separator: "=", maxSplits: 1)
+                        let onlyKeyPresent = (_keyval.count == 1)
+                        key = String(_keyval[0])
+                        value = onlyKeyPresent ? key : String(_keyval[1])
+                    } else {
+                        key = _line
+                        value = key
+                    }
+                    let item = QTCMenuItem(title: key, action: #selector(clickedItem), keyEquivalent: shortcut)
+                    item.qtcValue = value
                     item.target = self
                     statusItem.menu!.insertItem(item, at: index)
                     shortcutIndex += 1
