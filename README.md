@@ -26,3 +26,5 @@ Sometimes some snippets may be too similar to each other, or too long, etc. In t
  youtube=https://www.youtube.com/
  name@domain.com
  ```
+ 
+ ![Quick Text Copy](screenshots/screenshot_02.jpg)
