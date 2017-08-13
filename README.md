@@ -4,7 +4,7 @@ Download: <https://github.com/rohgar/quick-text-copy/releases/latest>
 
 Quick Text Copy lets you quickly copy text snippets that you frequently use. Just create a simple file which contains your text, and load it in Quick Text Copy. Selecting an item will automatically copy it to clipboard.
 
-![Quick Text Copy](screenshots/screenshot_01.jpg)
+![Quick Text Copy](screenshots/screenshot01.jpg)
 
 ### Basic Usage
  
@@ -28,4 +28,4 @@ Youtube=https://www.youtube.com/
 Apple Deals=https://www.apple.com/shop/browse/home/specialdeals
  ```
  
- ![Quick Text Copy](screenshots/screenshot_02.jpg)
+ ![Quick Text Copy](screenshots/screenshot02.jpg)
