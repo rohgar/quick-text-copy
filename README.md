@@ -21,10 +21,11 @@ Sometimes some snippets may be too similar to each other, or too long, etc. In t
 
  Example `<filename>.properties`:
  ```properties
- system_a=127.0.0.3/
- response_1=In meeting, will call you back later.
- youtube=https://www.youtube.com/
- name@domain.com
+System IP=127.0.0.3/
+Meeting Response=In meeting, will call you back later. You have a knack for calling exactly when i’m in a meeting :)
+name@domain.com
+Youtube=https://www.youtube.com/
+Apple Deals=https://www.apple.com/shop/browse/home/specialdeals
  ```
  
  ![Quick Text Copy](screenshots/screenshot_02.jpg)
