@@ -1,3 +1,12 @@
 os: osx
 language: swift
 xcode_project: Quick\ Text\ Copy.xcodeproj
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: FXCqUIIJLUY5EDOiQ976njtP6/4DYxfxFehPF0YpPPpzzJJcgRpIbqmFrOEVN7+j0Sg2rFdmGJvmYEdmGwRRlIuLhQ47+ZS3PPSRfc9zMb587GOpb74eyvQZRLcvCJMa039U/tBMAnuEON1afurNb/Ncv8/6WAWaLEhUWj7ssVazRiUkcrIFD60kYxY+/0Y0igF37FHxkUjo8bULYRdKxtC/DI8gYYJVAJifUX96RokZpFLNAWbvUczhzk9idcsdun+1dMjmXhNqOPizt18Ny2p0IXQK7R5fVyIsz50+AEGc4pVoaqAv89AMaUClurReutGYT+CkT2kWwYcCrToJ1uoLonxRfVLh6EfTIBbr2svVo1t9swe8E3Dw+9PWUKt+AW/WGnZjZYSkus3ulf+d4HZPXnc93HszRRcetLivrwE2Ibsklvkph5tf8+Eg327FQ7qywRWo2wSGLnGXEXzX4nWlFiJETVXZhxlsZS77i8UxDV/K+zE5JJ6PdWbKvtjjOjp2I3JvBxwNZQYSFoGViaLkDhXA5x08p02dvCLmmVU1CijWKkP1ti9fMdzoJYpzs2dKJYPbqEJ2/rnQPA8Ph0kSoCO3ACUYLlbzXLuf6edbPbmEdXAGAfV9o6KDwCBVdf1rFyvsJUNHGW9FAH+kgE8LlMWtaCfCoNUQorbO+LE=
+  file: /Users/travis/Library/Developer/Xcode/DerivedData/Quick\ Text\ Copy/Build/Products/Release/Quick\ Text\ Copy.app
+  on:
+    repo: rohgar/quick-text-copy
+    branch: travis-config-release
