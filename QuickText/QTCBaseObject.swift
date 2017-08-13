@@ -114,14 +114,20 @@ class QTCBaseObject: NSObject {
             // load the file contents
             let values = content.components(separatedBy: "\n")
             var index = 0
+            var shortcutIndex = 0
             // add values from the file
             for _value in values {
                 if (_value.isEmpty) {
                     statusItem.menu!.insertItem(NSMenuItem.separator(), at: index)
                 } else {
-                    let item = NSMenuItem(title: _value, action: #selector(clickedItem), keyEquivalent: "")
+                    var shortcut = ""
+                    if (shortcutIndex < 10) {
+                        shortcut = "\(shortcutIndex)"
+                    }
+                    let item = NSMenuItem(title: _value, action: #selector(clickedItem), keyEquivalent: shortcut)
                     item.target = self
                     statusItem.menu!.insertItem(item, at: index)
+                    shortcutIndex += 1
                 }
                 index += 1
             }
