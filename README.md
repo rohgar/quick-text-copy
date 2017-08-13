@@ -15,15 +15,14 @@ Quick Text Copy lets you quickly copy text snippets that you frequently use. Jus
 3. Load the file you created.
 4. Click on any item to automatically copy it to clipboard.
 
-### Loading key values
+### Giving titles to snippets
  
 The files with extension `.properties` are treated differently. A property file allows you to give titles to snippets. This comes in handy in cases like the nippets being similar to each other, or being too long. When this file is loaded, only the **key** is shown in the menu and clicking on the key copies the **value** of the key to clipboard. If there is no value, the key itself will be copied to the keyboard
  
- Example:
+ Example `<filename.properties>`:
  ```properties
  system_a=127.0.0.3/
  response_1=In meeting, will call you back later.
  youtube=https://www.youtube.com/
  name@domain.com
  ```
-
