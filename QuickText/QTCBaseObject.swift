@@ -14,8 +14,8 @@ class QTCMenuItem: NSMenuItem {
 
 class QTCBaseObject: NSObject {
     
-    let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    var userSelectedFile : String? = nil
+    @objc let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    @objc var userSelectedFile : String? = nil
     
     override func awakeFromNib() {
         let icon = NSImage(named: "StatusBarIcon")
@@ -27,31 +27,31 @@ class QTCBaseObject: NSObject {
     
     // MARK: Selector Functions
     
-    func loadNewFile(sender: QTCMenuItem) {
+    @objc func loadNewFile(sender: QTCMenuItem) {
         userSelectedFile = selectFile()
         loadUserSelectedFile(sender: sender)
     }
     
-    func loadUserSelectedFile(sender: QTCMenuItem) {
+    @objc func loadUserSelectedFile(sender: QTCMenuItem) {
         if let file = userSelectedFile {
             intializeStatusItemMenu(allowDisablingItems: true)
             populateMenuFromFile(file)
         }
     }
     
-    func reset(sender: QTCMenuItem) {
+    @objc func reset(sender: QTCMenuItem) {
         userSelectedFile = nil
         intializeStatusItemMenu()
     }
     
-    func clickedItem(sender: QTCMenuItem) {
-        let pasteBoard = NSPasteboard.general()
+    @objc func clickedItem(sender: QTCMenuItem) {
+        let pasteBoard = NSPasteboard.general
         pasteBoard.clearContents()
         pasteBoard.writeObjects([sender.qtcValue as NSString])
     }
     
-    func quitApp(sender: QTCMenuItem) {
-        NSApplication.shared().terminate(self)
+    @objc func quitApp(sender: QTCMenuItem) {
+        NSApplication.shared.terminate(self)
     }
     
     // MARK: Private Functions
@@ -91,7 +91,7 @@ class QTCBaseObject: NSObject {
         dialog.allowsMultipleSelection = false
         dialog.allowedFileTypes        = ["","txt","log","properties"]
         var chosenFile = ""
-        if (dialog.runModal() == NSModalResponseOK) {
+        if (dialog.runModal() == NSApplication.ModalResponse.OK) {
             let selection = dialog.url
             if let _selection = selection {
                 chosenFile = _selection.path
@@ -127,7 +127,7 @@ class QTCBaseObject: NSObject {
                     var key : String
                     var value : String
                     if (isPropertyFile) {
-                        let _keyval = _line.characters.split(separator: "=", maxSplits: 1)
+                        let _keyval = _line.split(separator: "=", maxSplits: 1)
                         let onlyKeyPresent = (_keyval.count == 1)
                         key = String(_keyval[0])
                         value = onlyKeyPresent ? key : String(_keyval[1])
