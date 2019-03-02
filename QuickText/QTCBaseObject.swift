@@ -14,8 +14,8 @@ class QTCMenuItem: NSMenuItem {
 
 class QTCBaseObject: NSObject {
     
-    @objc let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-    @objc var userSelectedFile : String? = nil
+    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    var userSelectedFile : String? = nil
     
     override func awakeFromNib() {
         let icon = NSImage(named: "StatusBarIcon")
