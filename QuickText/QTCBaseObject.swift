@@ -84,9 +84,12 @@ class QTCBaseObject: NSObject {
     }
     
     @objc func aboutApp(sender: QTCMenuItem) -> Bool {
+        let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
         let alert: NSAlert = NSAlert()
         alert.messageText = "Quick Text Copy"
-        alert.informativeText = "Version 1.3"
+        if let version = appVersion {
+            alert.informativeText = "Version " + version
+        }
         alert.alertStyle = NSAlert.Style.warning
         alert.addButton(withTitle: "OK")
         return alert.runModal() == .alertFirstButtonReturn

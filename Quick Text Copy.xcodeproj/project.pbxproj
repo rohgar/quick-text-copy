@@ -89,7 +89,6 @@
 				14716524053F0D9BAF8B9A33 /* Pods-Quick Text Copy.debug.xcconfig */,
 				C5877D551A3256A703EFF015 /* Pods-Quick Text Copy.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
