@@ -16,7 +16,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5254E5B71F3FB580000A00E1 /* Quick Text Copy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "Quick Text Copy.entitlements"; path = "../Quick Text Copy.entitlements"; sourceTree = "<group>"; };
 		5254E5BC1F3FBAC7000A00E1 /* QTCBaseObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTCBaseObject.swift; sourceTree = "<group>"; };
 		5254E5C21F3FBDC1000A00E1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5254E5C31F3FBDC1000A00E1 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -60,7 +59,6 @@
 			isa = PBXGroup;
 			children = (
 				5254E5BC1F3FBAC7000A00E1 /* QTCBaseObject.swift */,
-				5254E5B71F3FB580000A00E1 /* Quick Text Copy.entitlements */,
 				52B0ADA21F36E5C1008672E4 /* AppDelegate.swift */,
 				52B0ADA61F36E5C1008672E4 /* Assets.xcassets */,
 				52B0ADA81F36E5C1008672E4 /* Main.storyboard */,

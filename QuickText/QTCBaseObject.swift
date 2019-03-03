@@ -57,6 +57,7 @@ class QTCBaseObject: NSObject {
     }
     
     @objc func clickedItem(sender: QTCMenuItem) {
+        // copy the item to clipboard
         let pasteBoard = NSPasteboard.general
         pasteBoard.clearContents()
         pasteBoard.writeObjects([sender.qtcValue as NSString])
