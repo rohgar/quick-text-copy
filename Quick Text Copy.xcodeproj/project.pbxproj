@@ -14,6 +14,7 @@
 		52B0ADA71F36E5C1008672E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52B0ADA61F36E5C1008672E4 /* Assets.xcassets */; };
 		52B0ADAA1F36E5C1008672E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52B0ADA81F36E5C1008672E4 /* Main.storyboard */; };
 		9C4D26E1AA49C2EF1398570D /* Pods_Quick_Text_Copy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34AA0FE8D80DF94D19148EDD /* Pods_Quick_Text_Copy.framework */; };
+		F9894A13222C771D00DF529D /* QTCUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9894A12222C771D00DF529D /* QTCUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		52B0ADA91F36E5C1008672E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		52B0ADAB1F36E5C1008672E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5877D551A3256A703EFF015 /* Pods-Quick Text Copy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quick Text Copy.release.xcconfig"; path = "Target Support Files/Pods-Quick Text Copy/Pods-Quick Text Copy.release.xcconfig"; sourceTree = "<group>"; };
+		F9894A12222C771D00DF529D /* QTCUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 			children = (
 				52B0ADA21F36E5C1008672E4 /* AppDelegate.swift */,
 				5254E5BC1F3FBAC7000A00E1 /* QTCBaseObject.swift */,
+				F9894A12222C771D00DF529D /* QTCUtils.swift */,
 				52B0ADA61F36E5C1008672E4 /* Assets.xcassets */,
 				52B0ADA81F36E5C1008672E4 /* Main.storyboard */,
 				52B0ADAB1F36E5C1008672E4 /* Info.plist */,
@@ -220,6 +223,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9894A13222C771D00DF529D /* QTCUtils.swift in Sources */,
 				52B0ADA31F36E5C1008672E4 /* AppDelegate.swift in Sources */,
 				5254E5BD1F3FBAC7000A00E1 /* QTCBaseObject.swift in Sources */,
 			);

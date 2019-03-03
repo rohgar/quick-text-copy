@@ -54,7 +54,7 @@ class QTCBaseObject: NSObject {
     // MARK: Selector Functions
     
     @objc func getNewFile(sender: QTCMenuItem) {
-        userSelectedFile = selectFile()
+        userSelectedFile = QTCUtils.selectFile()
         userDefaults.set(userSelectedFile, forKey: KEY_PROPERTY_FILE)
         loadUserSelectedFile()
     }
@@ -102,54 +102,38 @@ class QTCBaseObject: NSObject {
     // MARK: Private Functions
     
     private func intializeStatusItemMenu(allowDisablingItems: Bool = false) {
+        menu.removeAllItems()
         statusItem.menu = menu
         statusItem.menu!.autoenablesItems = allowDisablingItems
         // Load File
         let loadMenuItem = QTCMenuItem(title: "Load File ...", action: #selector(getNewFile), keyEquivalent: "l")
-        statusItem.menu!.addItem(loadMenuItem)
         // Refresh File
         let refreshMenuItem = QTCMenuItem(title: "Refresh loaded file", action: #selector(refreshFile), keyEquivalent: "r")
         refreshMenuItem.isEnabled = false
-        statusItem.menu!.addItem(refreshMenuItem)
-        // Refresh File
+        // Clear File
         let clearMenuItem = QTCMenuItem(title: "Clear loaded file", action: #selector(reset), keyEquivalent: "c")
         clearMenuItem.isEnabled = false
-        statusItem.menu!.addItem(clearMenuItem)
         // separator
         statusItem.menu!.addItem(QTCMenuItem.separator())
         // About
-        let aboutMenuItem = QTCMenuItem(title: "About", action: #selector(aboutApp), keyEquivalent: "q")
-        statusItem.menu!.addItem(aboutMenuItem)
-        // separator
-        statusItem.menu!.addItem(QTCMenuItem.separator())
+        let aboutMenuItem = QTCMenuItem(title: "About", action: #selector(aboutApp), keyEquivalent: "a")
         // Quit
         let quitMenuItem = QTCMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q")
-        statusItem.menu!.addItem(quitMenuItem)
+        
+        let items = [loadMenuItem,
+                     refreshMenuItem,
+                     clearMenuItem,
+                     QTCMenuItem.separator(),
+                     aboutMenuItem,
+                     QTCMenuItem.separator(),
+                     quitMenuItem]
+        for item in items {
+            statusItem.menu!.addItem(item)
+        }
         
         for item in statusItem.menu!.items {
             item.target = self
         }
-    }
-    
-    private func selectFile() -> String? {
-        // Let the user select the file
-        let dialog = NSOpenPanel()
-        dialog.showsResizeIndicator    = true
-        dialog.showsHiddenFiles        = false
-        dialog.canChooseDirectories    = true
-        dialog.canCreateDirectories    = true
-        dialog.allowsMultipleSelection = false
-        dialog.allowedFileTypes        = ["","txt","log","properties"]
-        var chosenFile = ""
-        if (dialog.runModal() == NSApplication.ModalResponse.OK) {
-            let selection = dialog.url
-            if let _selection = selection {
-                chosenFile = _selection.path
-            }
-        } else {
-            return nil
-        }
-        return chosenFile
     }
     
     // Assumes that the user did select a file
