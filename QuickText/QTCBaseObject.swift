@@ -61,6 +61,14 @@ class QTCBaseObject: NSObject {
         let pasteBoard = NSPasteboard.general
         pasteBoard.clearContents()
         pasteBoard.writeObjects([sender.qtcValue as NSString])
+        // paste
+        let src = CGEventSource(stateID: CGEventSourceStateID.hidSystemState)
+        let event1 = CGEvent(keyboardEventSource: src, virtualKey: 0x09, keyDown: true)
+        event1?.flags = CGEventFlags.maskCommand;
+        event1?.post(tap: .cghidEventTap)
+        let event2 = CGEvent(keyboardEventSource: src, virtualKey: 0x09, keyDown: false)
+        event2?.flags = CGEventFlags.maskCommand;
+        event2?.post(tap: .cghidEventTap)
     }
     
     @objc func quitApp(sender: QTCMenuItem) {
