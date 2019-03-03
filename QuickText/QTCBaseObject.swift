@@ -36,6 +36,8 @@ class QTCBaseObject: NSObject {
         if let file = userSelectedFile {
             intializeStatusItemMenu(allowDisablingItems: true)
             populateMenuFromFile(file)
+        } else {
+            intializeStatusItemMenu()
         }
     }
     
