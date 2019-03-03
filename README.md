@@ -1,17 +1,13 @@
-[![Build Status](https://travis-ci.org/rohgar/quick-text-copy.svg?branch=master)](https://travis-ci.org/rohgar/quick-text-copy)
-
 Download: <https://github.com/rohgar/quick-text-copy/releases/latest>
 
-Quick Text Copy lets you quickly copy text snippets that you frequently use. Just create a simple file which contains your text, and load it in Quick Text Copy. Selecting an item will automatically copy it to clipboard.
-
-![Quick Text Copy](screenshots/screenshot01.jpg)
+Quick Text Copy lets you quickly copy text snippets that you frequently use. Just create a simple file which contains your text, and load it. Selecting an item will automatically copy it to clipboard and paste it to the cursor location.
 
 ### Basic Usage
  
 1. Create a simple text file with no extension or with an extension .txt, .log or .properties.
     * Each **line** in the file corresponds to the snippet that you want to copy.
     * Each **empty line** in the file corresponds to a **separator**.
-2. Open the app. It shows up in the menubar as seen in the screenshot. 
+2. Open the app. It shows up in the menubar (somewhere near the "wifi" icon). 
 3. Load the file you created.
 4. Click on any item to automatically copy it to clipboard.
 
@@ -22,10 +18,8 @@ Sometimes some snippets may be too similar to each other, or too long, etc. In t
  Example `<filename>.properties`:
  ```
 System IP=127.0.0.3/
-Meeting Response=In meeting, will call you back later. You have a knack for calling exactly when i’m in a meeting :)
+Meeting Response=In meeting, will call you back later.
 name@domain.com
 Youtube=https://www.youtube.com/
 Apple Deals=https://www.apple.com/shop/browse/home/specialdeals
  ```
- 
- ![Quick Text Copy](screenshots/screenshot02.jpg)

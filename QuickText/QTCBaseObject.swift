@@ -83,6 +83,15 @@ class QTCBaseObject: NSObject {
         event2?.post(tap: .cghidEventTap)
     }
     
+    @objc func aboutApp(sender: QTCMenuItem) -> Bool {
+        let alert: NSAlert = NSAlert()
+        alert.messageText = "Quick Text Copy"
+        alert.informativeText = "Version 1.3"
+        alert.alertStyle = NSAlert.Style.warning
+        alert.addButton(withTitle: "OK")
+        return alert.runModal() == .alertFirstButtonReturn
+    }
+    
     @objc func quitApp(sender: QTCMenuItem) {
         NSApplication.shared.terminate(self)
     }
@@ -103,6 +112,11 @@ class QTCBaseObject: NSObject {
         let clearMenuItem = QTCMenuItem(title: "Clear loaded file", action: #selector(reset), keyEquivalent: "c")
         clearMenuItem.isEnabled = false
         statusItem.menu!.addItem(clearMenuItem)
+        // separator
+        statusItem.menu!.addItem(QTCMenuItem.separator())
+        // About
+        let aboutMenuItem = QTCMenuItem(title: "About", action: #selector(aboutApp), keyEquivalent: "q")
+        statusItem.menu!.addItem(aboutMenuItem)
         // separator
         statusItem.menu!.addItem(QTCMenuItem.separator())
         // Quit
