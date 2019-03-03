@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Magnet
 
 class QTCMenuItem: NSMenuItem {
     var qtcValue: String!
@@ -17,6 +18,7 @@ class QTCBaseObject: NSObject {
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     
     // user defaults
+    let menu = NSMenu()
     let userDefaults = UserDefaults.standard
     let KEY_PROPERTY_FILE = "propertyfile"
     var userSelectedFile : String? = nil
@@ -30,6 +32,14 @@ class QTCBaseObject: NSObject {
         // load the user selected file
         userSelectedFile = userDefaults.string(forKey: KEY_PROPERTY_FILE)
         loadUserSelectedFile()
+        // shortcut
+        if let keyCombo = KeyCombo(keyCode: 8, carbonModifiers: 768) {
+            let hotKey = HotKey(identifier: "CommandShiftC", keyCombo: keyCombo) { hotKey in
+                // Called when ⌘ + Shift + C is pressed
+                self.menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+            }
+            hotKey.register()
+        }
     }
     
     func loadUserSelectedFile() {
@@ -80,7 +90,7 @@ class QTCBaseObject: NSObject {
     // MARK: Private Functions
     
     private func intializeStatusItemMenu(allowDisablingItems: Bool = false) {
-        statusItem.menu = NSMenu()
+        statusItem.menu = menu
         statusItem.menu!.autoenablesItems = allowDisablingItems
         // Load File
         let loadMenuItem = QTCMenuItem(title: "Load File ...", action: #selector(getNewFile), keyEquivalent: "l")
