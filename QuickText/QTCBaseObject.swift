@@ -31,7 +31,12 @@ class QTCBaseObject: NSObject {
         statusItem.title = nil
         // load the user selected file
         userSelectedFile = userDefaults.string(forKey: KEY_PROPERTY_FILE)
-        loadUserSelectedFile()
+        if let file = userSelectedFile {
+            initializeMenu(enableItems: true)
+            populateMenuFromFile(file)
+        } else {
+            initializeMenu()
+        }
         // shortcut
         if let keyCombo = KeyCombo(keyCode: 8, carbonModifiers: 768) {
             let hotKey = HotKey(identifier: "CommandShiftC", keyCombo: keyCombo) { hotKey in
@@ -42,30 +47,28 @@ class QTCBaseObject: NSObject {
         }
     }
     
-    func loadUserSelectedFile() {
-        if let file = userSelectedFile {
-            intializeStatusItemMenu(allowDisablingItems: true)
-            populateMenuFromFile(file)
-        } else {
-            intializeStatusItemMenu()
-        }
-    }
-    
     // MARK: Selector Functions
     
     @objc func getNewFile(sender: QTCMenuItem) {
-        userSelectedFile = QTCUtils.selectFile()
-        userDefaults.set(userSelectedFile, forKey: KEY_PROPERTY_FILE)
-        loadUserSelectedFile()
+        let newFile = QTCUtils.selectFile()
+        if let file = newFile {
+            initializeMenu(enableItems: true)
+            populateMenuFromFile(file)
+            userSelectedFile = file
+            userDefaults.set(userSelectedFile, forKey: KEY_PROPERTY_FILE)
+        }
     }
     
     @objc func refreshFile(sender: QTCMenuItem) {
-        loadUserSelectedFile()
+        initializeMenu(enableItems: true)
+        if let file = userSelectedFile {
+            populateMenuFromFile(file)
+        }
     }
     
     @objc func reset(sender: QTCMenuItem) {
         userSelectedFile = nil
-        intializeStatusItemMenu()
+        initializeMenu()
     }
     
     @objc func clickedItem(sender: QTCMenuItem) {
@@ -101,10 +104,10 @@ class QTCBaseObject: NSObject {
     
     // MARK: Private Functions
     
-    private func intializeStatusItemMenu(allowDisablingItems: Bool = false) {
+    private func initializeMenu(enableItems: Bool = false) {
         menu.removeAllItems()
         statusItem.menu = menu
-        statusItem.menu!.autoenablesItems = allowDisablingItems
+        statusItem.menu!.autoenablesItems = enableItems
         // Load File
         let loadMenuItem = QTCMenuItem(title: "Load File ...", action: #selector(getNewFile), keyEquivalent: "l")
         // Refresh File
