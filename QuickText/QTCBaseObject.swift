@@ -15,28 +15,40 @@ class QTCMenuItem: NSMenuItem {
 class QTCBaseObject: NSObject {
     
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    
+    // user defaults
+    let userDefaults = UserDefaults.standard
+    let KEY_PROPERTY_FILE = "propertyfile"
     var userSelectedFile : String? = nil
     
     override func awakeFromNib() {
+        // set the icon
         let icon = NSImage(named: "StatusBarIcon")
         icon?.isTemplate = true // best for dark mode
         statusItem.image = icon
         statusItem.title = nil
-        intializeStatusItemMenu()
+        // load the user selected file
+        userSelectedFile = userDefaults.string(forKey: KEY_PROPERTY_FILE)
+        loadUserSelectedFile()
     }
     
-    // MARK: Selector Functions
-    
-    @objc func loadNewFile(sender: QTCMenuItem) {
-        userSelectedFile = selectFile()
-        loadUserSelectedFile(sender: sender)
-    }
-    
-    @objc func loadUserSelectedFile(sender: QTCMenuItem) {
+    func loadUserSelectedFile() {
         if let file = userSelectedFile {
             intializeStatusItemMenu(allowDisablingItems: true)
             populateMenuFromFile(file)
         }
+    }
+    
+    // MARK: Selector Functions
+    
+    @objc func getNewFile(sender: QTCMenuItem) {
+        userSelectedFile = selectFile()
+        userDefaults.set(userSelectedFile, forKey: KEY_PROPERTY_FILE)
+        loadUserSelectedFile()
+    }
+    
+    @objc func refreshFile(sender: QTCMenuItem) {
+        loadUserSelectedFile()
     }
     
     @objc func reset(sender: QTCMenuItem) {
@@ -60,10 +72,10 @@ class QTCBaseObject: NSObject {
         statusItem.menu = NSMenu()
         statusItem.menu!.autoenablesItems = allowDisablingItems
         // Load File
-        let loadMenuItem = QTCMenuItem(title: "Load File ...", action: #selector(loadNewFile), keyEquivalent: "l")
+        let loadMenuItem = QTCMenuItem(title: "Load File ...", action: #selector(getNewFile), keyEquivalent: "l")
         statusItem.menu!.addItem(loadMenuItem)
         // Refresh File
-        let refreshMenuItem = QTCMenuItem(title: "Refresh loaded file", action: #selector(loadUserSelectedFile), keyEquivalent: "r")
+        let refreshMenuItem = QTCMenuItem(title: "Refresh loaded file", action: #selector(refreshFile), keyEquivalent: "r")
         refreshMenuItem.isEnabled = false
         statusItem.menu!.addItem(refreshMenuItem)
         // Refresh File
