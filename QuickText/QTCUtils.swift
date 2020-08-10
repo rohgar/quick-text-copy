@@ -15,8 +15,8 @@ class QTCUtils {
         let dialog = NSOpenPanel()
         dialog.showsResizeIndicator    = true
         dialog.showsHiddenFiles        = false
-        dialog.canChooseDirectories    = true
-        dialog.canCreateDirectories    = true
+        dialog.canChooseDirectories    = false
+        dialog.canCreateDirectories    = false
         dialog.allowsMultipleSelection = false
         dialog.allowedFileTypes        = ["","txt","log","properties"]
         var chosenFile = ""
