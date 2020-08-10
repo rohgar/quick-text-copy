@@ -38,7 +38,7 @@ class QTCBaseObject: NSObject {
             initializeMenu()
         }
         // shortcut
-        if let keyCombo = KeyCombo(keyCode: 8, carbonModifiers: 768) {
+        if let keyCombo = KeyCombo(key: .c, carbonModifiers: 768) {
             let hotKey = HotKey(identifier: "CommandShiftC", keyCombo: keyCombo) { hotKey in
                 // Called when ⌘ + Shift + C is pressed
                 self.menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
