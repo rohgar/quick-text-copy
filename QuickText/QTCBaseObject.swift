@@ -23,6 +23,8 @@ class QTCBaseObject: NSObject {
     let KEY_PROPERTY_FILE = "propertyfile"
     var userSelectedFile : String? = nil
     
+    private final let SUBMENU_IDENTIFIER = "_submenu_"
+    
     override func awakeFromNib() {
         // set the icon
         let icon = NSImage(named: "StatusBarIcon")
@@ -104,6 +106,10 @@ class QTCBaseObject: NSObject {
     
     // MARK: Private Functions
     
+    private func isSubMenu(name: String) -> Bool {
+        return name.lowercased().starts(with: SUBMENU_IDENTIFIER)
+    }
+    
     private func initializeMenu(enableItems: Bool = false) {
         menu.removeAllItems()
         statusItem.menu = menu
@@ -155,8 +161,21 @@ class QTCBaseObject: NSObject {
             // add values from the file
             for _line in lines {
                 if (_line.isEmpty) {
+                    
                     statusItem.menu!.insertItem(QTCMenuItem.separator(), at: index)
+                    
+                } else if (isSubMenu(name: _line)) {
+                    
+                    let submenu = NSMenu()
+                    let submenuName = _line.replacingOccurrences(of: SUBMENU_IDENTIFIER, with: "")
+                    let menuDropdown = QTCMenuItem(title: submenuName, action: nil, keyEquivalent: "")
+                    submenu.addItem(NSMenuItem(title: "Option 1", action: nil, keyEquivalent: ""))
+                    submenu.addItem(NSMenuItem(title: "Option 2", action: nil, keyEquivalent: ""))
+                    menu.setSubmenu(submenu, for: menuDropdown)
+                    menu.addItem(menuDropdown)
+                    
                 } else {
+                    
                     var shortcut = ""
                     if (shortcutIndex < 10) {
                         shortcut = "\(shortcutIndex)"
