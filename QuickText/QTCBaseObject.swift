@@ -8,6 +8,7 @@
 
 import Cocoa
 import Magnet
+import Foundation
 
 class QTCMenuItem: NSMenuItem {
     var qtcValue: String!
@@ -88,6 +89,22 @@ class QTCBaseObject: NSObject {
         event2?.post(tap: .cghidEventTap)
     }
     
+    
+    func clickedJSONItem(sender: QTCJSONMenuItem) {
+        // copy the item to clipboard
+        let pasteBoard = NSPasteboard.general
+        pasteBoard.clearContents()
+        pasteBoard.writeObjects([sender.value as NSString])
+        // paste
+        let src = CGEventSource(stateID: CGEventSourceStateID.hidSystemState)
+        let event1 = CGEvent(keyboardEventSource: src, virtualKey: 0x09, keyDown: true)
+        event1?.flags = CGEventFlags.maskCommand;
+        event1?.post(tap: .cghidEventTap)
+        let event2 = CGEvent(keyboardEventSource: src, virtualKey: 0x09, keyDown: false)
+        event2?.flags = CGEventFlags.maskCommand;
+        event2?.post(tap: .cghidEventTap)
+    }
+    
     @objc func aboutApp(sender: QTCMenuItem) -> Bool {
         let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
         let alert: NSAlert = NSAlert()
@@ -145,8 +162,22 @@ class QTCBaseObject: NSObject {
         }
     }
     
-    // Assumes that the user did select a file
     private func populateMenuFromFile(_ chosenFile: String) {
+        let splitArray = chosenFile.split(separator: ".")
+        let fileExtension = splitArray[splitArray.count - 1]
+        
+        switch fileExtension {
+        case "properties":
+            populateMenuFromPropertiesFile(chosenFile)
+        case "json":
+            populateMenuFromJSONfile(chosenFile)
+        default:
+            populateMenuFromPropertiesFile(chosenFile)
+        }
+    }
+    
+    // Assumes that the user did select a file
+    private func populateMenuFromPropertiesFile(_ chosenFile: String) {
         var isPropertyFile = false;
         if (chosenFile.hasSuffix("properties")) {
             isPropertyFile = true
@@ -206,6 +237,15 @@ class QTCBaseObject: NSObject {
             let nsError = error as NSError
             print(nsError.localizedDescription)
         }
+    }
+    
+    private func populateMenuFromJSONfile(_ chosenFile: String)  {
+        let jsonData = QTCJSONUtils.readJSONData(fromFile: chosenFile)
+        let items = QTCJSONUtils.decode(jsonData: jsonData!)
+        for item in items! {
+            let item = QTCMenuItem(title: item.key, action: #selector(clickedJSONItem), keyEquivalent: "")
+        }
+        
     }
     
 }

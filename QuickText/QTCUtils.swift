@@ -18,7 +18,7 @@ class QTCUtils {
         dialog.canChooseDirectories    = false
         dialog.canCreateDirectories    = false
         dialog.allowsMultipleSelection = false
-        dialog.allowedFileTypes        = ["","txt","log","properties"]
+        dialog.allowedFileTypes        = ["","txt","log","properties", "json"]
         var chosenFile = ""
         if (dialog.runModal() == NSApplication.ModalResponse.OK) {
             let selection = dialog.url
@@ -29,6 +29,16 @@ class QTCUtils {
             return nil
         }
         return chosenFile
+    }
+    
+    static func removeExtension(filename: String) -> String {
+        var name = filename
+        if (name.contains(".")) {
+            var array = name.split(separator: ".")
+            array.remove(at: array.count - 1)
+            name = array.joined()
+        }
+        return name
     }
     
 }
