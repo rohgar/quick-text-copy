@@ -170,9 +170,7 @@ class QTCBaseObject: NSObject {
             // add values from the file
             for _line in lines {
                 if (_line.isEmpty) {
-                    
                     statusItem.menu!.insertItem(QTCMenuItem.separator(), at: index)
-                    
                 } else {
                     
                     var shortcut = ""
@@ -226,7 +224,6 @@ class QTCBaseObject: NSObject {
         for (index, sm) in submenus.enumerated() {
             let menuDropdown = NSMenuItem(title: sm.name, action: nil, keyEquivalent: "")
             menu.insertItem(menuDropdown, at: elements.count + index)
-            
             let submenu = NSMenu()
             for smelement in sm.elements {
                 let subItem = QTCMenuItem(title: smelement.key, action: #selector(clickedItem), keyEquivalent: "")
