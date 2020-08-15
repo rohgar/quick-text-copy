@@ -24,6 +24,8 @@ class QTCBaseObject: NSObject {
     let KEY_PROPERTY_FILE = "propertyfile"
     var userSelectedFile : String? = nil
     
+    private let SEPARATOR = "separator"
+    
     override func awakeFromNib() {
         // set the icon
         let icon = NSImage(named: "StatusBarIcon")
@@ -78,6 +80,7 @@ class QTCBaseObject: NSObject {
         pasteBoard.clearContents()
         pasteBoard.writeObjects([sender.qtcValue as NSString])
         // paste by simulating "cmd + v"
+        print(0x09)
         let src = CGEventSource(stateID: CGEventSourceStateID.hidSystemState)
         let event1 = CGEvent(keyboardEventSource: src, virtualKey: 0x09, keyDown: true)
         event1?.flags = CGEventFlags.maskCommand;
@@ -85,6 +88,7 @@ class QTCBaseObject: NSObject {
         let event2 = CGEvent(keyboardEventSource: src, virtualKey: 0x09, keyDown: false)
         event2?.flags = CGEventFlags.maskCommand;
         event2?.post(tap: .cghidEventTap)
+        print("Done")
     }
     
     @objc func aboutApp(sender: QTCMenuItem) -> Bool {
@@ -213,12 +217,16 @@ class QTCBaseObject: NSObject {
         
         var shortcutIndex = 0
         for (index, element) in elements.enumerated() {
-            let shortcut = (shortcutIndex < 10) ? "" : "\(shortcutIndex)"
-            let item = QTCMenuItem(title: element.key, action: #selector(clickedItem), keyEquivalent: shortcut)
-            item.qtcValue = element.value
-            item.target = self
-            statusItem.menu!.insertItem(item, at: index)
-            shortcutIndex += 1
+            if (element.key == SEPARATOR) {
+                statusItem.menu!.insertItem(QTCMenuItem.separator(), at: index)
+            } else {
+                let shortcut = (shortcutIndex < 10) ? "" : "\(shortcutIndex)"
+                let item = QTCMenuItem(title: element.key, action: #selector(clickedItem), keyEquivalent: shortcut)
+                item.qtcValue = element.value
+                item.target = self
+                statusItem.menu!.insertItem(item, at: index)
+                shortcutIndex += 1
+            }
         }
         
         for (index, sm) in submenus.enumerated() {
@@ -226,10 +234,14 @@ class QTCBaseObject: NSObject {
             menu.insertItem(menuDropdown, at: elements.count + index)
             let submenu = NSMenu()
             for smelement in sm.elements {
-                let subItem = QTCMenuItem(title: smelement.key, action: #selector(clickedItem), keyEquivalent: "")
-                subItem.qtcValue = smelement.value
-                subItem.target = self
-                submenu.addItem(subItem)
+                if (smelement.key == SEPARATOR) {
+                    statusItem.menu!.insertItem(QTCMenuItem.separator(), at: index)
+                } else {
+                    let subItem = QTCMenuItem(title: smelement.key, action: #selector(clickedItem), keyEquivalent: "")
+                    subItem.qtcValue = smelement.value
+                    subItem.target = self
+                    submenu.addItem(subItem)
+                }
             }
             menu.setSubmenu(submenu, for: menuDropdown)
         }
