@@ -89,22 +89,6 @@ class QTCBaseObject: NSObject {
         event2?.post(tap: .cghidEventTap)
     }
     
-    
-    func clickedJSONItem(sender: QTCJSONMenuItem) {
-        // copy the item to clipboard
-        let pasteBoard = NSPasteboard.general
-        pasteBoard.clearContents()
-        pasteBoard.writeObjects([sender.value as NSString])
-        // paste
-        let src = CGEventSource(stateID: CGEventSourceStateID.hidSystemState)
-        let event1 = CGEvent(keyboardEventSource: src, virtualKey: 0x09, keyDown: true)
-        event1?.flags = CGEventFlags.maskCommand;
-        event1?.post(tap: .cghidEventTap)
-        let event2 = CGEvent(keyboardEventSource: src, virtualKey: 0x09, keyDown: false)
-        event2?.flags = CGEventFlags.maskCommand;
-        event2?.post(tap: .cghidEventTap)
-    }
-    
     @objc func aboutApp(sender: QTCMenuItem) -> Bool {
         let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
         let alert: NSAlert = NSAlert()
@@ -241,9 +225,15 @@ class QTCBaseObject: NSObject {
     
     private func populateMenuFromJSONfile(_ chosenFile: String)  {
         let jsonData = QTCJSONUtils.readJSONData(fromFile: chosenFile)
-        let items = QTCJSONUtils.decode(jsonData: jsonData!)
-        for item in items! {
-            let item = QTCMenuItem(title: item.key, action: #selector(clickedJSONItem), keyEquivalent: "")
+        let elements = QTCJSONUtils.decode(jsonData: jsonData!)
+        var shortcutIndex = 0
+        for (index, element) in elements!.enumerated() {
+            let shortcut = (shortcutIndex < 10) ? "" : "\(shortcutIndex)"
+            let item = QTCMenuItem(title: element.key, action: #selector(clickedItem), keyEquivalent: shortcut)
+            item.qtcValue = element.value
+            item.target = self
+            statusItem.menu!.insertItem(item, at: index)
+            shortcutIndex += 1
         }
         
     }
