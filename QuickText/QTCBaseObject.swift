@@ -24,8 +24,6 @@ class QTCBaseObject: NSObject {
     let KEY_PROPERTY_FILE = "propertyfile"
     var userSelectedFile : String? = nil
     
-    private final let SUBMENU_IDENTIFIER = "_submenu_"
-    
     override func awakeFromNib() {
         // set the icon
         let icon = NSImage(named: "StatusBarIcon")
@@ -79,7 +77,7 @@ class QTCBaseObject: NSObject {
         let pasteBoard = NSPasteboard.general
         pasteBoard.clearContents()
         pasteBoard.writeObjects([sender.qtcValue as NSString])
-        // paste
+        // paste by simulating "cmd + v"
         let src = CGEventSource(stateID: CGEventSourceStateID.hidSystemState)
         let event1 = CGEvent(keyboardEventSource: src, virtualKey: 0x09, keyDown: true)
         event1?.flags = CGEventFlags.maskCommand;
@@ -106,11 +104,7 @@ class QTCBaseObject: NSObject {
     }
     
     // MARK: Private Functions
-    
-    private func isSubMenu(name: String) -> Bool {
-        return name.lowercased().starts(with: SUBMENU_IDENTIFIER)
-    }
-    
+
     private func initializeMenu(enableItems: Bool = false) {
         menu.removeAllItems()
         statusItem.menu = menu
@@ -179,16 +173,6 @@ class QTCBaseObject: NSObject {
                     
                     statusItem.menu!.insertItem(QTCMenuItem.separator(), at: index)
                     
-                } else if (isSubMenu(name: _line)) {
-                    
-                    let submenu = NSMenu()
-                    let submenuName = _line.replacingOccurrences(of: SUBMENU_IDENTIFIER, with: "")
-                    let menuDropdown = QTCMenuItem(title: submenuName, action: nil, keyEquivalent: "")
-                    submenu.addItem(NSMenuItem(title: "Option 1", action: nil, keyEquivalent: ""))
-                    submenu.addItem(NSMenuItem(title: "Option 2", action: nil, keyEquivalent: ""))
-                    menu.setSubmenu(submenu, for: menuDropdown)
-                    menu.addItem(menuDropdown)
-                    
                 } else {
                     
                     var shortcut = ""
@@ -225,15 +209,32 @@ class QTCBaseObject: NSObject {
     
     private func populateMenuFromJSONfile(_ chosenFile: String)  {
         let jsonData = QTCJSONUtils.readJSONData(fromFile: chosenFile)
-        let elements = QTCJSONUtils.decode(jsonData: jsonData!)
+        let jsonObject = QTCJSONUtils.decode(jsonData: jsonData!)
+        let elements = jsonObject!.elements
+        let submenus = jsonObject!.submenus
+        
         var shortcutIndex = 0
-        for (index, element) in elements!.enumerated() {
+        for (index, element) in elements.enumerated() {
             let shortcut = (shortcutIndex < 10) ? "" : "\(shortcutIndex)"
             let item = QTCMenuItem(title: element.key, action: #selector(clickedItem), keyEquivalent: shortcut)
             item.qtcValue = element.value
             item.target = self
             statusItem.menu!.insertItem(item, at: index)
             shortcutIndex += 1
+        }
+        
+        for sm in submenus {
+            let menuDropdown = NSMenuItem(title: sm.name, action: nil, keyEquivalent: "")
+            menu.addItem(menuDropdown)
+            
+            let submenu = NSMenu()
+            for smelement in sm.elements {
+                let subItem = QTCMenuItem(title: smelement.key, action: #selector(clickedItem), keyEquivalent: "")
+                submenu.addItem(subItem)
+                subItem.qtcValue = smelement.value
+            }
+            
+            menu.setSubmenu(submenu, for: menuDropdown)
         }
         
     }

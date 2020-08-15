@@ -8,9 +8,19 @@
 
 import Foundation
 
-struct QTCJSONMenuItem: Codable {
+struct QTCJSONElement: Codable {
     let key: String
     let value: String
+}
+
+struct QTCJSONSubmenu: Codable {
+    let name: String
+    let elements: [QTCJSONElement]
+}
+
+struct QTCJSONObject: Codable {
+    let elements: [QTCJSONElement]
+    let submenus: [QTCJSONSubmenu]
 }
 
 class QTCJSONUtils {
@@ -26,10 +36,10 @@ class QTCJSONUtils {
         return nil
     }
 
-    static func decode(jsonData: Data) -> [QTCJSONMenuItem]? {
+    static func decode(jsonData: Data) -> QTCJSONObject? {
         do {
-            let items = try JSONDecoder().decode([QTCJSONMenuItem].self, from: jsonData)
-            return items
+            let jsonObject = try JSONDecoder().decode(QTCJSONObject.self, from: jsonData)
+            return jsonObject
         } catch {
             print("Error info: \(error)")
         }
