@@ -112,10 +112,10 @@ class QTCBaseObject: NSObject {
         // Load File
         let loadMenuItem = QTCMenuItem(title: "Load File ...", action: #selector(getNewFile), keyEquivalent: "l")
         // Refresh File
-        let refreshMenuItem = QTCMenuItem(title: "Refresh loaded file", action: #selector(refreshFile), keyEquivalent: "r")
+        let refreshMenuItem = QTCMenuItem(title: "Refresh ...", action: #selector(refreshFile), keyEquivalent: "r")
         refreshMenuItem.isEnabled = false
         // Clear File
-        let clearMenuItem = QTCMenuItem(title: "Clear loaded file", action: #selector(reset), keyEquivalent: "c")
+        let clearMenuItem = QTCMenuItem(title: "Clear ...", action: #selector(reset), keyEquivalent: "c")
         clearMenuItem.isEnabled = false
         // separator
         statusItem.menu!.addItem(QTCMenuItem.separator())
@@ -223,17 +223,17 @@ class QTCBaseObject: NSObject {
             shortcutIndex += 1
         }
         
-        for sm in submenus {
+        for (index, sm) in submenus.enumerated() {
             let menuDropdown = NSMenuItem(title: sm.name, action: nil, keyEquivalent: "")
-            menu.addItem(menuDropdown)
+            menu.insertItem(menuDropdown, at: elements.count + index)
             
             let submenu = NSMenu()
             for smelement in sm.elements {
                 let subItem = QTCMenuItem(title: smelement.key, action: #selector(clickedItem), keyEquivalent: "")
-                submenu.addItem(subItem)
                 subItem.qtcValue = smelement.value
+                subItem.target = self
+                submenu.addItem(subItem)
             }
-            
             menu.setSubmenu(submenu, for: menuDropdown)
         }
         
