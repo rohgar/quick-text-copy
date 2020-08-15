@@ -147,7 +147,6 @@ class QTCBaseObject: NSObject {
     private func populateMenuFromFile(_ chosenFile: String) {
         let splitArray = chosenFile.split(separator: ".")
         let fileExtension = splitArray[splitArray.count - 1]
-        
         switch fileExtension {
         case "properties":
             populateMenuFromPropertiesFile(chosenFile)
