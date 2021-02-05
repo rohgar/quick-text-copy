@@ -10,11 +10,11 @@ import Cocoa
 import Magnet
 import Foundation
 
-class QTCMenuItem: NSMenuItem {
-    var qtcValue: String!
+class MenuItem: NSMenuItem {
+    var val: String!
 }
 
-class QTCBaseObject: NSObject {
+class BaseObject: NSObject {
     
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     
@@ -52,8 +52,8 @@ class QTCBaseObject: NSObject {
     
     // MARK: Selector Functions
     
-    @objc func getNewFile(sender: QTCMenuItem) {
-        let newFile = QTCUtils.selectFile()
+    @objc func getNewFile(sender: MenuItem) {
+        let newFile = Utils.selectFile()
         if let file = newFile {
             initializeMenu(enableItems: true)
             populateMenuFromFile(file)
@@ -62,23 +62,23 @@ class QTCBaseObject: NSObject {
         }
     }
     
-    @objc func refreshFile(sender: QTCMenuItem) {
+    @objc func refreshFile(sender: MenuItem) {
         initializeMenu(enableItems: true)
         if let file = userSelectedFile {
             populateMenuFromFile(file)
         }
     }
     
-    @objc func reset(sender: QTCMenuItem) {
+    @objc func reset(sender: MenuItem) {
         userSelectedFile = nil
         initializeMenu()
     }
     
-    @objc func clickedItem(sender: QTCMenuItem) {
+    @objc func clickedItem(sender: MenuItem) {
         // copy the item to clipboard
         let pasteBoard = NSPasteboard.general
         pasteBoard.clearContents()
-        pasteBoard.writeObjects([sender.qtcValue as NSString])
+        pasteBoard.writeObjects([sender.val as NSString])
         // paste by simulating "cmd + v"
         print(0x09)
         let src = CGEventSource(stateID: CGEventSourceStateID.hidSystemState)
@@ -91,7 +91,7 @@ class QTCBaseObject: NSObject {
         print("Done")
     }
     
-    @objc func aboutApp(sender: QTCMenuItem) -> Bool {
+    @objc func aboutApp(sender: MenuItem) -> Bool {
         let appVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String
         let alert: NSAlert = NSAlert()
         alert.messageText = "Quick Text Copy"
@@ -103,7 +103,7 @@ class QTCBaseObject: NSObject {
         return alert.runModal() == .alertFirstButtonReturn
     }
     
-    @objc func quitApp(sender: QTCMenuItem) {
+    @objc func quitApp(sender: MenuItem) {
         NSApplication.shared.terminate(self)
     }
     
@@ -114,26 +114,26 @@ class QTCBaseObject: NSObject {
         statusItem.menu = menu
         statusItem.menu!.autoenablesItems = enableItems
         // Load File
-        let loadMenuItem = QTCMenuItem(title: "Load File ...", action: #selector(getNewFile), keyEquivalent: "l")
+        let loadMenuItem = MenuItem(title: "Load File ...", action: #selector(getNewFile), keyEquivalent: "l")
         // Refresh File
-        let refreshMenuItem = QTCMenuItem(title: "Refresh ...", action: #selector(refreshFile), keyEquivalent: "r")
+        let refreshMenuItem = MenuItem(title: "Refresh ...", action: #selector(refreshFile), keyEquivalent: "r")
         refreshMenuItem.isEnabled = false
         // Clear File
-        let clearMenuItem = QTCMenuItem(title: "Clear ...", action: #selector(reset), keyEquivalent: "c")
+        let clearMenuItem = MenuItem(title: "Clear ...", action: #selector(reset), keyEquivalent: "c")
         clearMenuItem.isEnabled = false
         // separator
-        statusItem.menu!.addItem(QTCMenuItem.separator())
+        statusItem.menu!.addItem(MenuItem.separator())
         // About
-        let aboutMenuItem = QTCMenuItem(title: "About", action: #selector(aboutApp), keyEquivalent: "a")
+        let aboutMenuItem = MenuItem(title: "About", action: #selector(aboutApp), keyEquivalent: "a")
         // Quit
-        let quitMenuItem = QTCMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q")
+        let quitMenuItem = MenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q")
         
         let items = [loadMenuItem,
                      refreshMenuItem,
                      clearMenuItem,
-                     QTCMenuItem.separator(),
+                     MenuItem.separator(),
                      aboutMenuItem,
-                     QTCMenuItem.separator(),
+                     MenuItem.separator(),
                      quitMenuItem]
         for item in items {
             statusItem.menu!.addItem(item)
@@ -173,7 +173,7 @@ class QTCBaseObject: NSObject {
             // add values from the file
             for _line in lines {
                 if (_line.isEmpty) {
-                    statusItem.menu!.insertItem(QTCMenuItem.separator(), at: index)
+                    statusItem.menu!.insertItem(MenuItem.separator(), at: index)
                 } else {
                     
                     var shortcut = ""
@@ -191,8 +191,8 @@ class QTCBaseObject: NSObject {
                         key = _line
                         value = key
                     }
-                    let item = QTCMenuItem(title: key, action: #selector(clickedItem), keyEquivalent: shortcut)
-                    item.qtcValue = value
+                    let item = MenuItem(title: key, action: #selector(clickedItem), keyEquivalent: shortcut)
+                    item.val = value
                     item.target = self
                     statusItem.menu!.insertItem(item, at: index)
                     shortcutIndex += 1
@@ -209,19 +209,19 @@ class QTCBaseObject: NSObject {
     }
     
     private func populateMenuFromJSONfile(_ chosenFile: String)  {
-        let jsonData = QTCJSONUtils.readJSONData(fromFile: chosenFile)
-        let jsonObject = QTCJSONUtils.decode(jsonData: jsonData!)
+        let jsonData = JSONUtils.readJSONData(fromFile: chosenFile)
+        let jsonObject = JSONUtils.decode(jsonData: jsonData!)
         let elements = jsonObject!.elements
         let submenus = jsonObject!.submenus
         
         var shortcutIndex = 0
         for (index, element) in elements.enumerated() {
             if (element.key == SEPARATOR) {
-                statusItem.menu!.insertItem(QTCMenuItem.separator(), at: index)
+                statusItem.menu!.insertItem(MenuItem.separator(), at: index)
             } else {
                 let shortcut = (shortcutIndex < 10) ? "" : "\(shortcutIndex)"
-                let item = QTCMenuItem(title: element.key, action: #selector(clickedItem), keyEquivalent: shortcut)
-                item.qtcValue = element.value
+                let item = MenuItem(title: element.key, action: #selector(clickedItem), keyEquivalent: shortcut)
+                item.val = element.value
                 item.target = self
                 statusItem.menu!.insertItem(item, at: index)
                 shortcutIndex += 1
@@ -234,10 +234,10 @@ class QTCBaseObject: NSObject {
             let submenu = NSMenu()
             for smelement in sm.elements {
                 if (smelement.key == SEPARATOR) {
-                    statusItem.menu!.insertItem(QTCMenuItem.separator(), at: index)
+                    statusItem.menu!.insertItem(MenuItem.separator(), at: index)
                 } else {
-                    let subItem = QTCMenuItem(title: smelement.key, action: #selector(clickedItem), keyEquivalent: "")
-                    subItem.qtcValue = smelement.value
+                    let subItem = MenuItem(title: smelement.key, action: #selector(clickedItem), keyEquivalent: "")
+                    subItem.val = smelement.value
                     subItem.target = self
                     submenu.addItem(subItem)
                 }

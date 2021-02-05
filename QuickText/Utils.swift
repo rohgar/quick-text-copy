@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class QTCUtils {
+class Utils {
     
     static func selectFile() -> String? {
         // Let the user select the file

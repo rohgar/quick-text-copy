@@ -1,5 +1,5 @@
 //
-//  QTCJSONUtils.swift
+//  JSONUtils.swift
 //  Quick Text Copy
 //
 //  Created by Rohit Gargate on 8/11/20.
@@ -8,22 +8,22 @@
 
 import Foundation
 
-struct QTCJSONElement: Codable {
+struct JSONElement: Codable {
     let key: String
     let value: String
 }
 
-struct QTCJSONSubmenu: Codable {
+struct JSONSubmenu: Codable {
     let name: String
-    let elements: [QTCJSONElement]
+    let elements: [JSONElement]
 }
 
-struct QTCJSONObject: Codable {
-    let elements: [QTCJSONElement]
-    let submenus: [QTCJSONSubmenu]
+struct JSONObject: Codable {
+    let elements: [JSONElement]
+    let submenus: [JSONSubmenu]
 }
 
-class QTCJSONUtils {
+class JSONUtils {
     
     static func readJSONData(fromFile file: String) -> Data? {
         do {
@@ -36,9 +36,9 @@ class QTCJSONUtils {
         return nil
     }
 
-    static func decode(jsonData: Data) -> QTCJSONObject? {
+    static func decode(jsonData: Data) -> JSONObject? {
         do {
-            let jsonObject = try JSONDecoder().decode(QTCJSONObject.self, from: jsonData)
+            let jsonObject = try JSONDecoder().decode(JSONObject.self, from: jsonData)
             return jsonObject
         } catch {
             print("Error info: \(error)")

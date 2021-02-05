@@ -7,21 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5254E5BD1F3FBAC7000A00E1 /* QTCBaseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5254E5BC1F3FBAC7000A00E1 /* QTCBaseObject.swift */; };
+		5254E5BD1F3FBAC7000A00E1 /* BaseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5254E5BC1F3FBAC7000A00E1 /* BaseObject.swift */; };
 		5254E5C51F3FBDC1000A00E1 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 5254E5C31F3FBDC1000A00E1 /* LICENSE */; };
 		527F406C222B3CC20013056D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5254E5C21F3FBDC1000A00E1 /* README.md */; };
 		52B0ADA31F36E5C1008672E4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B0ADA21F36E5C1008672E4 /* AppDelegate.swift */; };
 		52B0ADA71F36E5C1008672E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52B0ADA61F36E5C1008672E4 /* Assets.xcassets */; };
 		52B0ADAA1F36E5C1008672E4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52B0ADA81F36E5C1008672E4 /* Main.storyboard */; };
-		52F9ED0424E3A26E006409E9 /* QTCJSONUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F9ED0324E3A26E006409E9 /* QTCJSONUtils.swift */; };
+		52F9ED0424E3A26E006409E9 /* JSONUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F9ED0324E3A26E006409E9 /* JSONUtils.swift */; };
 		9C4D26E1AA49C2EF1398570D /* Pods_Quick_Text_Copy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34AA0FE8D80DF94D19148EDD /* Pods_Quick_Text_Copy.framework */; };
-		F9894A13222C771D00DF529D /* QTCUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9894A12222C771D00DF529D /* QTCUtils.swift */; };
+		F9894A13222C771D00DF529D /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9894A12222C771D00DF529D /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		14716524053F0D9BAF8B9A33 /* Pods-Quick Text Copy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quick Text Copy.debug.xcconfig"; path = "Target Support Files/Pods-Quick Text Copy/Pods-Quick Text Copy.debug.xcconfig"; sourceTree = "<group>"; };
 		34AA0FE8D80DF94D19148EDD /* Pods_Quick_Text_Copy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Quick_Text_Copy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5254E5BC1F3FBAC7000A00E1 /* QTCBaseObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTCBaseObject.swift; sourceTree = "<group>"; };
+		5254E5BC1F3FBAC7000A00E1 /* BaseObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseObject.swift; sourceTree = "<group>"; };
 		5254E5C21F3FBDC1000A00E1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5254E5C31F3FBDC1000A00E1 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		52B0AD9F1F36E5C1008672E4 /* Quick Text Copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Quick Text Copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -29,9 +29,9 @@
 		52B0ADA61F36E5C1008672E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52B0ADA91F36E5C1008672E4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		52B0ADAB1F36E5C1008672E4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		52F9ED0324E3A26E006409E9 /* QTCJSONUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCJSONUtils.swift; sourceTree = "<group>"; };
+		52F9ED0324E3A26E006409E9 /* JSONUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONUtils.swift; sourceTree = "<group>"; };
 		C5877D551A3256A703EFF015 /* Pods-Quick Text Copy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quick Text Copy.release.xcconfig"; path = "Target Support Files/Pods-Quick Text Copy/Pods-Quick Text Copy.release.xcconfig"; sourceTree = "<group>"; };
-		F9894A12222C771D00DF529D /* QTCUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QTCUtils.swift; sourceTree = "<group>"; };
+		F9894A12222C771D00DF529D /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,9 +78,9 @@
 			isa = PBXGroup;
 			children = (
 				52B0ADA21F36E5C1008672E4 /* AppDelegate.swift */,
-				5254E5BC1F3FBAC7000A00E1 /* QTCBaseObject.swift */,
-				F9894A12222C771D00DF529D /* QTCUtils.swift */,
-				52F9ED0324E3A26E006409E9 /* QTCJSONUtils.swift */,
+				5254E5BC1F3FBAC7000A00E1 /* BaseObject.swift */,
+				F9894A12222C771D00DF529D /* Utils.swift */,
+				52F9ED0324E3A26E006409E9 /* JSONUtils.swift */,
 				52B0ADA61F36E5C1008672E4 /* Assets.xcassets */,
 				52B0ADA81F36E5C1008672E4 /* Main.storyboard */,
 				52B0ADAB1F36E5C1008672E4 /* Info.plist */,
@@ -127,7 +127,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1300;
 				ORGANIZATIONNAME = Rovag;
 				TargetAttributes = {
 					52B0AD9E1F36E5C1008672E4 = {
@@ -224,10 +224,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52F9ED0424E3A26E006409E9 /* QTCJSONUtils.swift in Sources */,
-				F9894A13222C771D00DF529D /* QTCUtils.swift in Sources */,
+				52F9ED0424E3A26E006409E9 /* JSONUtils.swift in Sources */,
+				F9894A13222C771D00DF529D /* Utils.swift in Sources */,
 				52B0ADA31F36E5C1008672E4 /* AppDelegate.swift in Sources */,
-				5254E5BD1F3FBAC7000A00E1 /* QTCBaseObject.swift in Sources */,
+				5254E5BD1F3FBAC7000A00E1 /* BaseObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +271,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -331,6 +332,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
