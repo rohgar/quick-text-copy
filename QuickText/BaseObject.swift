@@ -30,8 +30,10 @@ class BaseObject: NSObject {
         // set the icon
         let icon = NSImage(named: "StatusBarIcon")
         icon?.isTemplate = true // best for dark mode
-        statusItem.image = icon
-        statusItem.title = nil
+        if let button = statusItem.button {
+            button.image = icon
+            button.title = ""
+        }
         // load the user selected file
         userSelectedFile = userDefaults.string(forKey: KEY_PROPERTY_FILE)
         if let file = userSelectedFile {
@@ -210,39 +212,47 @@ class BaseObject: NSObject {
     
     private func populateMenuFromJSONfile(_ chosenFile: String)  {
         let jsonData = JSONUtils.readJSONData(fromFile: chosenFile)
-        let jsonObject = JSONUtils.decode(jsonData: jsonData!)
-        let elements = jsonObject!.elements
-        let submenus = jsonObject!.submenus
+        if let jsonObject = JSONUtils.decode(jsonData: jsonData!) {
         
-        var shortcutIndex = 0
-        for (index, element) in elements.enumerated() {
-            if (element.key == SEPARATOR) {
-                statusItem.menu!.insertItem(MenuItem.separator(), at: index)
-            } else {
-                let shortcut = (shortcutIndex < 10) ? "" : "\(shortcutIndex)"
-                let item = MenuItem(title: element.key, action: #selector(clickedItem), keyEquivalent: shortcut)
-                item.val = element.value
-                item.target = self
-                statusItem.menu!.insertItem(item, at: index)
-                shortcutIndex += 1
-            }
-        }
-        
-        for (index, sm) in submenus.enumerated() {
-            let menuDropdown = NSMenuItem(title: sm.name, action: nil, keyEquivalent: "")
-            menu.insertItem(menuDropdown, at: elements.count + index)
-            let submenu = NSMenu()
-            for smelement in sm.elements {
-                if (smelement.key == SEPARATOR) {
+            let elements = jsonObject.elements
+            let submenus = jsonObject.submenus
+            
+            var shortcutIndex = 0
+            for (index, element) in elements.enumerated() {
+                if (element.key == SEPARATOR) {
                     statusItem.menu!.insertItem(MenuItem.separator(), at: index)
                 } else {
-                    let subItem = MenuItem(title: smelement.key, action: #selector(clickedItem), keyEquivalent: "")
-                    subItem.val = smelement.value
-                    subItem.target = self
-                    submenu.addItem(subItem)
+                    let shortcut = (shortcutIndex < 10) ? "" : "\(shortcutIndex)"
+                    let item = MenuItem(title: element.key, action: #selector(clickedItem), keyEquivalent: shortcut)
+                    item.val = element.value
+                    item.target = self
+                    statusItem.menu!.insertItem(item, at: index)
+                    shortcutIndex += 1
                 }
             }
-            menu.setSubmenu(submenu, for: menuDropdown)
+            
+            for (index, sm) in submenus.enumerated() {
+                let menuDropdown = NSMenuItem(title: sm.name, action: nil, keyEquivalent: "")
+                menu.insertItem(menuDropdown, at: elements.count + index)
+                let submenu = NSMenu()
+                for smelement in sm.elements {
+                    if (smelement.key == SEPARATOR) {
+                        statusItem.menu!.insertItem(MenuItem.separator(), at: index)
+                    } else {
+                        let subItem = MenuItem(title: smelement.key, action: #selector(clickedItem), keyEquivalent: "")
+                        subItem.val = smelement.value
+                        subItem.target = self
+                        submenu.addItem(subItem)
+                    }
+                }
+                menu.setSubmenu(submenu, for: menuDropdown)
+            }
+        } else {
+            let alert = NSAlert.init()
+            alert.messageText = "JSON Error!"
+            alert.informativeText = "There was an error while reading JSON content, please verify that your input JSON file is valid."
+            alert.addButton(withTitle: "OK")
+            alert.runModal()
         }
         
     }

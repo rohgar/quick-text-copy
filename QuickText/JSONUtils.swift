@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Cocoa
 
 struct JSONElement: Codable {
     let key: String
@@ -31,9 +32,14 @@ class JSONUtils {
                 return jsonData
             }
         } catch {
-            print("Error info: \(error)")
+            let alert = NSAlert.init()
+            alert.messageText = "JSON Error!"
+            alert.informativeText = "There was an error while reading JSON content, please verify that your input JSON file is valid."
+            alert.addButton(withTitle: "OK")
+            alert.runModal()
         }
-        return nil
+        let jsonData = String("{}").data(using: .utf8)
+        return jsonData
     }
 
     static func decode(jsonData: Data) -> JSONObject? {
